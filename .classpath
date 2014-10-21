@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="C:/Users/Celien/Desktop/Smart_System/Smart_Systems/JMF-2.1.1e/lib/customizer.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Celien/Desktop/Smart_System/Smart_Systems/JMF-2.1.1e/lib/jmf.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Celien/Desktop/Smart_System/Smart_Systems/JMF-2.1.1e/lib/mediaplayer.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Celien/Desktop/Smart_System/Smart_Systems/JMF-2.1.1e/lib/multiplayer.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
