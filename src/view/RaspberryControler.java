@@ -190,7 +190,7 @@ public class RaspberryControler extends JFrame
 		scrollBar.setPreferredSize(new Dimension(240, 250));
 		robotControlledBy.setPreferredSize(new Dimension(200, 20));
 		robotControlledBy.setForeground(Color.RED);
-		quit.setVisible(false);
+		quit.setVisible(true);
 		webcamRadioButton.setEnabled(false);
 		joystickRadioButton.setEnabled(false);
 		
