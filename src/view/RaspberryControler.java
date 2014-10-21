@@ -161,7 +161,7 @@ public class RaspberryControler extends JFrame
 		/*Set the Parameters of the JFrame*/
 		this.setVisible(true);
 		this.setTitle("Raspberry Controller");
-		this.setSize(new Dimension(1030, 520));
+		this.setSize(new Dimension(1016, 520));
 		this.setResizable(false);
 	}
 	
@@ -198,7 +198,7 @@ public class RaspberryControler extends JFrame
 		/*Set the layout*/
 		controlPanel.setLayout(new FlowLayout()); 
 		controlPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		controlPanel.setPreferredSize(new Dimension(450, 470));
+		controlPanel.setPreferredSize(new Dimension(450, 480));
 		
 		/*Place components inside controlPanel*/
 		controlPanel.add(chooseYourWayofControling); 
@@ -226,7 +226,7 @@ public class RaspberryControler extends JFrame
 		/*Set the layout*/
 		webcamPanel = new JPanel();
 		webcamPanel.setLayout(new BorderLayout()); 
-		webcamPanel.setPreferredSize(new Dimension(550, 470));
+		webcamPanel.setPreferredSize(new Dimension(550, 480));
 		webcamPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		
 		/*Place the components*/
