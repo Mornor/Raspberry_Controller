@@ -24,6 +24,8 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
+import javafx.scene.*;
+
 import controler.Controler;
 
 
@@ -228,6 +230,7 @@ public class RaspberryControler extends JFrame
 		webcamPanel.setLayout(new BorderLayout()); 
 		webcamPanel.setPreferredSize(new Dimension(550, 480));
 		webcamPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+	 
 		
 		/*Place the components*/
 		webcamPanel.add(liveStream, BorderLayout.NORTH); 
