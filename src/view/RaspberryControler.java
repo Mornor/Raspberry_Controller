@@ -97,17 +97,22 @@ public class RaspberryControler extends JFrame
 	private void initComponents(){
 		
 		setBasicParameters();
-		createControlPanel();
-		createWebcamPanel(); 
 		createMainPanel();
+		createControlPanel(); 
+		createWebcamPanel(); 
+		mainPanel.add(webcamPanel); 
+		mainPanel.add(controlPanel); 
 		setListeners();		
 		
 		/*Set the last parameters of the frame*/
+		this.setVisible(true);
 		this.revalidate();
 		this.repaint();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
+		playVideo(mediaPlayerComponent);
 	}
+	
 	
 	private void setListeners(){
 		
@@ -163,16 +168,13 @@ public class RaspberryControler extends JFrame
 		/*Set the Layout*/
 		mainPanel.setLayout(new FlowLayout());
 		
-		/*Set the parameters*/
-		mainPanel.add(webcamPanel); 
-		mainPanel.add(controlPanel);  
+		/*Set the parameters*/ 
 		this.getContentPane().add(mainPanel);
 	}
 	
 	private void setBasicParameters(){
 		
 		/*Set the Parameters of the JFrame*/
-		this.setVisible(true);
 		this.setTitle("Raspberry Controller");
 		this.setSize(new Dimension(1016, 520));
 		this.setResizable(false);
@@ -240,8 +242,6 @@ public class RaspberryControler extends JFrame
 		/*Set parameters of the components*/
 		liveStream.setPreferredSize(new Dimension(200, 30));
 		liveStream.setHorizontalAlignment(SwingConstants.CENTER);
-		mediaPlayerComponent.setPreferredSize(new Dimension(100, 100));
-		mediaPlayerComponent.setVisible(true);
 		
 		/*Set the layout*/
 		webcamPanel = new JPanel();
@@ -250,14 +250,12 @@ public class RaspberryControler extends JFrame
 		webcamPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		
 		/*Place the components*/
-		webcamPanel.setVisible(true);
-		webcamPanel.add(liveStream, BorderLayout.NORTH);
+		webcamPanel.add(liveStream, BorderLayout.NORTH);	    
 		webcamPanel.add(mediaPlayerComponent, BorderLayout.CENTER);
-		try{
-			mediaPlayerComponent.getMediaPlayer().playMedia("http://127.0.0.1:8989/movie");
-		}catch(IllegalStateException e){
-			System.out.println(e.toString());
-		}
+	}
+	
+	private void playVideo(EmbeddedMediaPlayerComponent mp){
+		mp.getMediaPlayer().playMedia("http://127.0.0.1:8989/movie"); 
 	}
 	
 	
@@ -295,7 +293,7 @@ public class RaspberryControler extends JFrame
 	}
 
 	/**
-	 * @return False is th button to stop the connection has been clicked. 
+	 * @return False is the button to stop the connection has been clicked. 
 	 * */
 	public boolean isStopConnection() {
 		return stopConnection;
