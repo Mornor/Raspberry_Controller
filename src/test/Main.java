@@ -8,16 +8,8 @@ import view.RaspberryControler;
 public class Main {
 	
 	
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		RaspberryControler raspberryController = new RaspberryControler("127.0.0.1");		
-		
-//		SwingUtilities.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                new Main(args);
-//            }
-//        });
-		
 	}
 	
 //	private Main(String[] args) {

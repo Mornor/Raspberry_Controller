@@ -41,7 +41,6 @@ public class RaspberryControler extends JFrame
 
 	/*Have to declare it in order to use vlcj*/
 	private EmbeddedMediaPlayerComponent mediaPlayerComponent;
-	private EmbeddedMediaPlayer mediaPlayer;
 	
 	/*Declaring the basics components*/
 	private JPanel mainPanel; 
@@ -234,20 +233,15 @@ public class RaspberryControler extends JFrame
 		NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/VLC/VideoLAN/VLC");
 		Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
 		
-		/*Create the canvas*/
-		Canvas canvas = new Canvas(); 
-		MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory(); 
-		canvas.setVisible(true);
-		CanvasVideoSurface videoSurface = mediaPlayerFactory.newVideoSurface(canvas); 
-		mediaPlayer = mediaPlayerFactory.newEmbeddedMediaPlayer(); 
-		mediaPlayer.setVideoSurface(videoSurface);
-		
 		/*Create components*/
 		liveStream = new JLabel("Live Stream"); 
+		mediaPlayerComponent = new EmbeddedMediaPlayerComponent(); 
 		
 		/*Set parameters of the components*/
 		liveStream.setPreferredSize(new Dimension(200, 30));
 		liveStream.setHorizontalAlignment(SwingConstants.CENTER);
+		mediaPlayerComponent.setPreferredSize(new Dimension(100, 100));
+		mediaPlayerComponent.setVisible(true);
 		
 		/*Set the layout*/
 		webcamPanel = new JPanel();
@@ -257,10 +251,10 @@ public class RaspberryControler extends JFrame
 		
 		/*Place the components*/
 		webcamPanel.setVisible(true);
-		webcamPanel.add(canvas);
-		webcamPanel.add(liveStream, BorderLayout.NORTH);  
+		webcamPanel.add(liveStream, BorderLayout.NORTH);
+		webcamPanel.add(mediaPlayerComponent, BorderLayout.CENTER);
 		try{
-		mediaPlayer.playMedia("http://127.0.0.1:8989/movie");
+			mediaPlayerComponent.getMediaPlayer().playMedia("http://127.0.0.1:8989/movie");
 		}catch(IllegalStateException e){
 			System.out.println(e.toString());
 		}
