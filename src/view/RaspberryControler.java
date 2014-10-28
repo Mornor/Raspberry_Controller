@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -10,7 +11,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
 
 import javax.swing.BorderFactory;
@@ -24,13 +24,25 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
-import javafx.scene.*;
+import uk.co.caprica.vlcj.binding.LibVlc;
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+import uk.co.caprica.vlcj.player.embedded.videosurface.CanvasVideoSurface;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
+
+import com.sun.jna.Native;
+import com.sun.jna.NativeLibrary;
 
 import controler.Controler;
 
-
 public class RaspberryControler extends JFrame 
 {
+
+	/*Have to declare it in order to use vlcj*/
+	private EmbeddedMediaPlayerComponent mediaPlayerComponent;
+	private EmbeddedMediaPlayer mediaPlayer;
+	
 	/*Declaring the basics components*/
 	private JPanel mainPanel; 
 	private JPanel webcamPanel; 
@@ -218,6 +230,18 @@ public class RaspberryControler extends JFrame
 
 	private void createWebcamPanel(){  
 		
+		/*Get the VLC Libraries*/
+		NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/VLC/VideoLAN/VLC");
+		Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
+		
+		/*Create the canvas*/
+		Canvas canvas = new Canvas(); 
+		MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory(); 
+		canvas.setVisible(true);
+		CanvasVideoSurface videoSurface = mediaPlayerFactory.newVideoSurface(canvas); 
+		mediaPlayer = mediaPlayerFactory.newEmbeddedMediaPlayer(); 
+		mediaPlayer.setVideoSurface(videoSurface);
+		
 		/*Create components*/
 		liveStream = new JLabel("Live Stream"); 
 		
@@ -230,12 +254,18 @@ public class RaspberryControler extends JFrame
 		webcamPanel.setLayout(new BorderLayout()); 
 		webcamPanel.setPreferredSize(new Dimension(550, 480));
 		webcamPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
-	 
 		
 		/*Place the components*/
-		webcamPanel.add(liveStream, BorderLayout.NORTH); 
-
+		webcamPanel.setVisible(true);
+		webcamPanel.add(canvas);
+		webcamPanel.add(liveStream, BorderLayout.NORTH);  
+		try{
+		mediaPlayer.playMedia("http://127.0.0.1:8989/movie");
+		}catch(IllegalStateException e){
+			System.out.println(e.toString());
+		}
 	}
+	
 	
 	public void showMessage(String msg){
 		stateOfCommunication.append(msg+"\n");
