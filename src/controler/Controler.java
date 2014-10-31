@@ -73,8 +73,7 @@ public class Controler {
 	}
 	
 	public void playVideo(EmbeddedMediaPlayerComponent mp){
-		//mp.getMediaPlayer().playMedia("http://127.0.0.1:8989/movie");
-		mp.getMediaPlayer().playMedia("172.26.32.143:8084"); 
+		mp.getMediaPlayer().playMedia("http://127.0.0.1:8989/movie"); 
 	}
 
 }
