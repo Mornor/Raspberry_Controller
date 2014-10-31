@@ -9,6 +9,7 @@ import java.net.Socket;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import view.RaspberryControler;
 
 public class Controler {
@@ -69,6 +70,11 @@ public class Controler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void playVideo(EmbeddedMediaPlayerComponent mp){
+		//mp.getMediaPlayer().playMedia("http://127.0.0.1:8989/movie");
+		mp.getMediaPlayer().playMedia("172.26.32.143:8084"); 
 	}
 
 }

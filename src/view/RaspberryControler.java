@@ -55,6 +55,7 @@ public class RaspberryControler extends JFrame
 	private JScrollPane scrollBar; 
 	private JButton quit;
 	private JButton start; 
+	private JButton startStreaming; 
 	private JTextArea stateOfCommunication; 
 	private JRadioButton webcamRadioButton; 
 	private JRadioButton joystickRadioButton; 
@@ -97,11 +98,9 @@ public class RaspberryControler extends JFrame
 	private void initComponents(){
 		
 		setBasicParameters();
-		createMainPanel();
 		createControlPanel(); 
 		createWebcamPanel(); 
-		mainPanel.add(webcamPanel); 
-		mainPanel.add(controlPanel); 
+		createMainPanel();
 		setListeners();		
 		
 		/*Set the last parameters of the frame*/
@@ -110,7 +109,7 @@ public class RaspberryControler extends JFrame
 		this.repaint();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-		playVideo(mediaPlayerComponent);
+		controler.playVideo(mediaPlayerComponent);
 	}
 	
 	
@@ -167,6 +166,8 @@ public class RaspberryControler extends JFrame
 		
 		/*Set the Layout*/
 		mainPanel.setLayout(new FlowLayout());
+		mainPanel.add(webcamPanel); 
+		mainPanel.add(controlPanel); 
 		
 		/*Set the parameters*/ 
 		this.getContentPane().add(mainPanel);
@@ -252,12 +253,7 @@ public class RaspberryControler extends JFrame
 		/*Place the components*/
 		webcamPanel.add(liveStream, BorderLayout.NORTH);	    
 		webcamPanel.add(mediaPlayerComponent, BorderLayout.CENTER);
-	}
-	
-	private void playVideo(EmbeddedMediaPlayerComponent mp){
-		mp.getMediaPlayer().playMedia("http://127.0.0.1:8989/movie"); 
-	}
-	
+	}	
 	
 	public void showMessage(String msg){
 		stateOfCommunication.append(msg+"\n");
