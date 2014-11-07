@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -29,10 +30,8 @@ public class Controler {
 	}
 	
 	public void setStreams() throws IOException{
-		rspbCtl.setOos(new ObjectOutputStream(rspbCtl.getConnection().getOutputStream())); 
-		rspbCtl.getOos().flush();
-		rspbCtl.setTest(new BufferedReader(new InputStreamReader(rspbCtl.getConnection().getInputStream())));
-		//rspbCtl.setOis(new ObjectInputStream(rspbCtl.getConnection().getInputStream())); 
+		rspbCtl.setPrintWriter(new PrintWriter(rspbCtl.getConnection().getOutputStream(), true));
+		rspbCtl.setBufferedReader(new BufferedReader(new InputStreamReader(rspbCtl.getConnection().getInputStream())));
 		showMessage("Streams are sets");
 	}
 	
@@ -40,9 +39,9 @@ public class Controler {
 		String msg; 
 		do{
 			try{
-				msg = (String) rspbCtl.getTest().readLine();// .readObject(); 
+				msg = (String) rspbCtl.getBufferedReader().readLine();
 				showMessage(msg);
-			}catch(ClassNotFoundException e){
+			}catch(IOException e){
 				showMessage("Incorrect data");
 			}
 		}while(true); 
@@ -54,9 +53,8 @@ public class Controler {
 	
 	public void closeConnection(){
 		try {
-			//rspbCtl.getOis().close();
-			rspbCtl.getTest().close();
-			rspbCtl.getOos().close(); 
+			rspbCtl.getBufferedReader().close();
+			rspbCtl.getPrintWriter().close(); 
 			rspbCtl.getConnection().close();
 			System.out.println("CLOSED CLOSED");
 		} catch (IOException e) {
@@ -66,14 +64,9 @@ public class Controler {
 	
 	/*Send the choice made on the GUI (via RadioButton) to the server*/
 	public void sendChoice(String msg){
-		try {
-			rspbCtl.getOos().writeObject(msg);
-			rspbCtl.getOos().flush();
+			rspbCtl.getPrintWriter().println(msg);
 			if(!msg.equals("CLOSE CONNECTION"))
 				showMessage("CLIENT - Sent : "+msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public void playVideo(EmbeddedMediaPlayerComponent mp){

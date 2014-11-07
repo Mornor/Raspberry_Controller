@@ -61,9 +61,9 @@ public class RaspberryControler extends JFrame
 	private JTextField ipAdress; 
 	
 	/*Declaring the network elements*/
-	private ObjectOutputStream oos; 
-	private ObjectInputStream ois; 
-	private BufferedReader test; 
+	private BufferedReader bufferedReader; // in 
+	private PrintWriter printWriter; // out
+	
 	private Socket connection; 
 	private String host; 
 	private boolean stopConnection; // Usefull to terminate Streams (see whileCommunicating)
@@ -119,7 +119,7 @@ public class RaspberryControler extends JFrame
 		webcamRadioButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controler.sendChoice("Webcam");
+				controler.sendChoice("on");
 				joystickRadioButton.setSelected(false);
 				robotControlledBy.setText("The Webcam");
 			}
@@ -144,8 +144,7 @@ public class RaspberryControler extends JFrame
 					quit.setVisible(true);
 					webcamRadioButton.setEnabled(true);
 					joystickRadioButton.setEnabled(true);
-				}
-				
+				}				
 			}
 		});
 		
@@ -282,22 +281,6 @@ public class RaspberryControler extends JFrame
 	}
 	
 	/*Getters and Setters*/
-	public ObjectOutputStream getOos() {
-		return oos;
-	}
-
-	public void setOos(ObjectOutputStream oos) {
-		this.oos = oos;
-	}
-
-	public ObjectInputStream getOis() {
-		return ois;
-	}
-
-	public void setOis(ObjectInputStream ois) {
-		this.ois = ois;
-	}
-
 	public Socket getConnection() {
 		return connection;
 	}
@@ -309,16 +292,24 @@ public class RaspberryControler extends JFrame
 	public String getHost() {
 		return host;
 	}
-	
-	
 
-	public BufferedReader getTest() {
-		return test;
+	public BufferedReader getBufferedReader() {
+		return bufferedReader;
 	}
 
 
-	public void setTest(BufferedReader test) {
-		this.test = test;
+	public void setBufferedReader(BufferedReader br) {
+		this.bufferedReader = br;
+	}
+	
+
+	public PrintWriter getPrintWriter() {
+		return printWriter;
+	}
+
+
+	public void setPrintWriter(PrintWriter printWriter) {
+		this.printWriter = printWriter;
 	}
 
 
