@@ -1,6 +1,8 @@
 package controler;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -22,14 +24,15 @@ public class Controler {
 	
 	public void connectToServer() throws IOException{
 		showMessage("Attempting to connect ...");
-		rspbCtl.setConnection(new Socket(InetAddress.getByName(rspbCtl.getHost()), 2014));
+		rspbCtl.setConnection(new Socket(InetAddress.getByName(rspbCtl.getHost()), 45678));
 		showMessage("Connected to : "+rspbCtl.getConnection().getInetAddress().getHostName());
 	}
 	
 	public void setStreams() throws IOException{
 		rspbCtl.setOos(new ObjectOutputStream(rspbCtl.getConnection().getOutputStream())); 
 		rspbCtl.getOos().flush();
-		rspbCtl.setOis(new ObjectInputStream(rspbCtl.getConnection().getInputStream())); 
+		rspbCtl.setTest(new BufferedReader(new InputStreamReader(rspbCtl.getConnection().getInputStream())));
+		//rspbCtl.setOis(new ObjectInputStream(rspbCtl.getConnection().getInputStream())); 
 		showMessage("Streams are sets");
 	}
 	
@@ -37,12 +40,12 @@ public class Controler {
 		String msg; 
 		do{
 			try{
-				msg = (String) rspbCtl.getOis().readObject(); 
+				msg = (String) rspbCtl.getTest().readLine();// .readObject(); 
 				showMessage(msg);
 			}catch(ClassNotFoundException e){
 				showMessage("Incorrect data");
 			}
-		}while(!rspbCtl.isStopConnection()); 
+		}while(true); 
 	}
 	
 	public void showMessage(String msg){			
@@ -51,7 +54,8 @@ public class Controler {
 	
 	public void closeConnection(){
 		try {
-			rspbCtl.getOis().close();
+			//rspbCtl.getOis().close();
+			rspbCtl.getTest().close();
 			rspbCtl.getOos().close(); 
 			rspbCtl.getConnection().close();
 			System.out.println("CLOSED CLOSED");

@@ -1,16 +1,17 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.swing.BorderFactory;
@@ -27,9 +28,6 @@ import javax.swing.SwingConstants;
 
 import uk.co.caprica.vlcj.binding.LibVlc;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
-import uk.co.caprica.vlcj.player.MediaPlayerFactory;
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
-import uk.co.caprica.vlcj.player.embedded.videosurface.CanvasVideoSurface;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 import com.sun.jna.Native;
@@ -65,6 +63,7 @@ public class RaspberryControler extends JFrame
 	/*Declaring the network elements*/
 	private ObjectOutputStream oos; 
 	private ObjectInputStream ois; 
+	private BufferedReader test; 
 	private Socket connection; 
 	private String host; 
 	private boolean stopConnection; // Usefull to terminate Streams (see whileCommunicating)
@@ -310,6 +309,18 @@ public class RaspberryControler extends JFrame
 	public String getHost() {
 		return host;
 	}
+	
+	
+
+	public BufferedReader getTest() {
+		return test;
+	}
+
+
+	public void setTest(BufferedReader test) {
+		this.test = test;
+	}
+
 
 	/**
 	 * @return False is the button to stop the connection has been clicked. 
