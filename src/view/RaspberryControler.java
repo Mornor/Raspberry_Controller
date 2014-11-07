@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
@@ -52,13 +53,14 @@ public class RaspberryControler extends JFrame
 	private JLabel choice; 
 	private JLabel robotControlledBy; 
 	private JLabel liveStream; 
+	private JLabel ipAddressLabel; 
 	private JScrollPane scrollBar; 
 	private JButton quit;
 	private JButton start; 
-	private JButton startStreaming; 
 	private JTextArea stateOfCommunication; 
 	private JRadioButton webcamRadioButton; 
 	private JRadioButton joystickRadioButton; 
+	private JTextField ipAdress; 
 	
 	/*Declaring the network elements*/
 	private ObjectOutputStream oos; 
@@ -71,8 +73,7 @@ public class RaspberryControler extends JFrame
 	Controler controler; 
 
 	
-	public RaspberryControler(String host){
-		this.host = host;
+	public RaspberryControler(){
 		controler = new Controler(this);  
 		initComponents();
 	}
@@ -137,11 +138,15 @@ public class RaspberryControler extends JFrame
 		start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				startRunning.start();
-				start.setVisible(false);
-				quit.setVisible(true);
-				webcamRadioButton.setEnabled(true);
-				joystickRadioButton.setEnabled(true);
+				if(checkIfIp()){
+					setHost(); 
+					startRunning.start();
+					start.setVisible(false);
+					quit.setVisible(true);
+					webcamRadioButton.setEnabled(true);
+					joystickRadioButton.setEnabled(true);
+				}
+				
 			}
 		});
 		
@@ -158,6 +163,16 @@ public class RaspberryControler extends JFrame
 			}
 		});
 		
+	}
+	
+	private void setHost(){
+		this.host = ipAdress.getText(); 
+	}
+	
+	/*Return true if there is something in the IP field*/
+	// TODO !
+	private boolean checkIfIp(){
+		return true; 
 	}
 	
 	private void createMainPanel(){
@@ -189,10 +204,12 @@ public class RaspberryControler extends JFrame
 		byWebcam = new JLabel("Using the webcam"); 
 		byJoystick = new JLabel("Using the Joystick"); 
 		choice = new JLabel("Robot is controlled by : "); 
-		robotControlledBy = new JLabel("Nothing at the moment"); 
+		robotControlledBy = new JLabel("Nothing at the moment");
+		ipAddressLabel = new JLabel("IP Adress of the server: "); 
+		ipAdress = new JTextField(); 
 		stateOfCommunication = new JTextArea(); 
 		quit = new JButton("Close connection"); 
-		start = new JButton("Start connection"); 
+		start = new JButton("Start connection");
 		webcamRadioButton = new JRadioButton(); 
 		joystickRadioButton = new JRadioButton();
 		scrollBar = new JScrollPane(stateOfCommunication);
@@ -204,12 +221,16 @@ public class RaspberryControler extends JFrame
 		choice.setPreferredSize(new Dimension(200, 50));
 		scrollBar.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); 	
 		scrollBar.setPreferredSize(new Dimension(240, 250));
+		
+		ipAdress.setPreferredSize(new Dimension(140, 25));
+		ipAddressLabel.setPreferredSize(new Dimension(150, 20)); 
+		start.setPreferredSize(new Dimension(200, 25));
+		quit.setPreferredSize(new Dimension(200, 25));
 		robotControlledBy.setPreferredSize(new Dimension(200, 20));
 		robotControlledBy.setForeground(Color.RED);
 		quit.setVisible(false);
 		webcamRadioButton.setEnabled(false);
-		joystickRadioButton.setEnabled(false);
-		
+		joystickRadioButton.setEnabled(false); 
 		
 		/*Set the layout*/
 		controlPanel.setLayout(new FlowLayout()); 
@@ -225,6 +246,8 @@ public class RaspberryControler extends JFrame
 		controlPanel.add(scrollBar);  
 		controlPanel.add(choice); 
 		controlPanel.add(robotControlledBy); 
+		controlPanel.add(ipAddressLabel); 
+		controlPanel.add(ipAdress); 
 		controlPanel.add(start); 
 		controlPanel.add(quit); 
 		

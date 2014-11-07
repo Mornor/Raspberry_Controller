@@ -9,7 +9,7 @@ public class Main {
 	
 	
 	public static void main(String[] args) {
-		RaspberryControler raspberryController = new RaspberryControler("127.0.0.1");		
+		RaspberryControler raspberryController = new RaspberryControler();		
 	}
 
 }
