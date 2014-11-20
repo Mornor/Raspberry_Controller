@@ -15,9 +15,7 @@ public class Communicator implements SerialPortEventListener
 
     //for containing the ports that will be found
     private Enumeration ports = null;
-    //map the port names to CommPortIdentifiers
-    private HashMap portMap = new HashMap();
-
+    
     //this is the object that contains the opened port
     private CommPortIdentifier selectedPortIdentifier = null;
     private SerialPort serialPort = null;
@@ -42,7 +40,8 @@ public class Communicator implements SerialPortEventListener
     //a string for recording what goes on in the program
     //this string is written to the GUI
     String logText = "";
-    CommPortIdentifier curPort; 
+
+	CommPortIdentifier curPort; 
     
     
     public Communicator(){}
@@ -204,5 +203,13 @@ public class Communicator implements SerialPortEventListener
             }
         }
     }
+    
+    public String getLogText() {
+		return logText;
+	}
+
+	public void setLogText(String logText) {
+		this.logText = logText;
+	}
 
 }
