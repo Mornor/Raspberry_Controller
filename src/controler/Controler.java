@@ -18,6 +18,10 @@ public class Controler {
 		this.rspbCtl = ctl;
 	}
 	
+	public void sendJoystickPositionToSerial(){
+		
+	}
+	
 	public void connectToServer() throws IOException{
 		showMessage("Attempting to connect ...");
 		rspbCtl.setConnection(new Socket(InetAddress.getByName(rspbCtl.getHost()), 45678));

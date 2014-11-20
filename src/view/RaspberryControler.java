@@ -1,5 +1,8 @@
 package view;
 
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,8 +35,9 @@ import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 
 import controler.Controler;
+import controler.Communicator;
 
-public class RaspberryControler extends JFrame 
+public class RaspberryControler extends JFrame implements SerialPortEventListener
 {
 
 	/*Have to declare it in order to use vlcj*/
@@ -68,10 +72,12 @@ public class RaspberryControler extends JFrame
 	
 	/*Declaring the Controler class*/
 	Controler controler; 
-
+	Communicator comm; 
+	
 	
 	public RaspberryControler(){
 		controler = new Controler(this);  
+		comm = new Communicator(); 
 		initComponents();
 	}
 	
@@ -126,7 +132,15 @@ public class RaspberryControler extends JFrame
 		joystickRadioButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controler.sendChoice("Joystick");
+					
+				comm.connect(comm.searchForPorts());
+				if (comm.getConnected() == true) {
+					if (comm.initIOStream() == true) {
+						comm.initListener();
+					}
+				}
+				//comm.disconnect();
+				// controler.sendChoice("Joystick");
 				webcamRadioButton.setSelected(false);
 				robotControlledBy.setText("The Joystick");				
 			}
@@ -226,7 +240,7 @@ public class RaspberryControler extends JFrame
 		robotControlledBy.setForeground(Color.RED);
 		quit.setVisible(false);
 		webcamRadioButton.setEnabled(false);
-		joystickRadioButton.setEnabled(false); 
+		joystickRadioButton.setEnabled(true); 
 		
 		/*Set the layout*/
 		controlPanel.setLayout(new FlowLayout()); 
@@ -317,6 +331,14 @@ public class RaspberryControler extends JFrame
 	public boolean isStopConnection() {
 		return stopConnection;
 	}
+
+
+	@Override
+	public void serialEvent(SerialPortEvent evt) {
+		comm.serialEvent(evt);
+	}
+
+
 	
 	
 	
