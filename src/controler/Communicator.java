@@ -1,12 +1,14 @@
 package controler; 
 
 import gnu.io.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.TooManyListenersException;
+
+import view.RaspberryControler;
 
 public class Communicator implements SerialPortEventListener
 {    
@@ -42,9 +44,11 @@ public class Communicator implements SerialPortEventListener
     String logText = "";
 
 	CommPortIdentifier curPort; 
+    RaspberryControler rspb;
     
-    
-    public Communicator(){}
+    public Communicator(RaspberryControler r){
+    	this.rspb = r; 
+    }
 
     //search for all the serial ports
     //pre: none
@@ -195,7 +199,7 @@ public class Communicator implements SerialPortEventListener
             			continue1 = false; 
             	}
             	
-                joystickPositionString = msgRcvd;
+            	rspb.getControler().sendChoice(msgRcvd);
                 System.out.println(msgRcvd);
             
             }

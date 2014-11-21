@@ -42,7 +42,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 
 	/*Have to declare it in order to use vlcj*/
 	private EmbeddedMediaPlayerComponent mediaPlayerComponent;
-	
+		
 	/*Declaring the basics components*/
 	private JPanel mainPanel; 
 	private JPanel webcamPanel; 
@@ -77,7 +77,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 	
 	public RaspberryControler(){
 		controler = new Controler(this);  
-		comm = new Communicator(); 
+		comm = new Communicator(this); 
 		initComponents();
 	}
 	
@@ -123,10 +123,10 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		webcamRadioButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				comm.disconnect();
-				controler.sendChoice("on");
+				//comm.disconnect();
+				controler.sendChoice("U");
 				joystickRadioButton.setSelected(false);
-				robotControlledBy.setText("The Webcam");
+				robotControlledBy.setText("Webcam");
 			}
 		});
 		
@@ -140,8 +140,9 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 						comm.initListener();
 					}
 				}
-				// controler.sendChoice("Joystick");
-				// controler.sendChoice(comm.getJoystickPositionString()); 
+				controler.sendChoice("Joystick");					
+				//controler.sendChoice(comm.getJoystickPositionString());
+				//System.out.println("Send after : "+comm.getJoystickPositionString());
 				webcamRadioButton.setSelected(false);
 				robotControlledBy.setText("The Joystick");				
 			}
@@ -167,7 +168,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 				startRunning.interrupt();
 				stopConnection = false; 
 				quit.setEnabled(false);
-				controler.sendChoice("CLOSE CONNECTION");
+				controler.sendChoice("EXIT");
 				webcamRadioButton.setEnabled(false);
 				joystickRadioButton.setEnabled(false);
 				showMessage("\nCLIENT - Communication is aborted");				
@@ -331,6 +332,10 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 	 * */
 	public boolean isStopConnection() {
 		return stopConnection;
+	}
+	
+	public Controler getControler() {
+		return controler;
 	}
 
 
