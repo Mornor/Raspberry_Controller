@@ -179,21 +179,28 @@ public class Communicator implements SerialPortEventListener
     //pre: serial event is triggered
     //post: processing on the data it reads
     public void serialEvent(SerialPortEvent evt) {
+    	
+    	String msgRcvd = ""; 
+    	
         if (evt.getEventType() == SerialPortEvent.DATA_AVAILABLE)
         {
             try
             {
-                byte singleData = (byte)input.read();
-              
+                char singleData = (char)input.read();             
+                
                 if (singleData != NEW_LINE_ASCII)
                 {
-                    logText = new String(new byte[] {singleData}, "UTF-8");
+                	char[] dataTab = {singleData}; 
+                   // logText = new String(dataTab, "UTF-8");      
+                    for(int i = 0 ; i < dataTab.length ; i++)
+                    	msgRcvd += dataTab[i];
+                    
                     joystickPositionString = logText;
-                    System.out.println("Data received from Joystick : " +logText);
+                    System.out.println("Data received from Joystick : " +msgRcvd);
                 }
                 else
                 {
-                    System.out.println("\n");
+                    System.out.println("");
                 }
             }
             catch (Exception e)
