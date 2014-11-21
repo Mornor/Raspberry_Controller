@@ -13,7 +13,7 @@ public class Communicator implements SerialPortEventListener
     // Data received from the serial Port (so, from the Joystick)
     String joystickPositionString; 
 
-    //for containing the ports that will be found
+	//for containing the ports that will be found
     private Enumeration ports = null;
     
     //this is the object that contains the opened port
@@ -194,12 +194,9 @@ public class Communicator implements SerialPortEventListener
             		else
             			continue1 = false; 
             	}
-//                while(input.read() != '\n'){
-//                	msgRcvd += (char)input.read(); 
-//                }
-//                
-                joystickPositionString = logText;
-                System.out.println("Data received from Joystick : " +msgRcvd);
+            	
+                joystickPositionString = msgRcvd;
+                System.out.println(msgRcvd);
             
             }
             catch (Exception e)
@@ -217,5 +214,15 @@ public class Communicator implements SerialPortEventListener
 	public void setLogText(String logText) {
 		this.logText = logText;
 	}
+	
+
+    public String getJoystickPositionString() {
+		return joystickPositionString;
+	}
+
+	public void setJoystickPositionString(String joystickPositionString) {
+		this.joystickPositionString = joystickPositionString;
+	}
+
 
 }

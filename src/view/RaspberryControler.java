@@ -103,7 +103,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		
 		setBasicParameters();
 		createControlPanel(); 
-		createWebcamPanel(); 
+		//createWebcamPanel(); 
 		createMainPanel();
 		setListeners();		
 		
@@ -113,7 +113,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		this.repaint();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-		controler.playVideo(mediaPlayerComponent);
+		//controler.playVideo(mediaPlayerComponent);
 	}
 	
 	
@@ -141,7 +141,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 					}
 				}
 				// controler.sendChoice("Joystick");
-				//controler.sendChoice(comm.getLogText()); 
+				// controler.sendChoice(comm.getJoystickPositionString()); 
 				webcamRadioButton.setSelected(false);
 				robotControlledBy.setText("The Joystick");				
 			}
@@ -192,7 +192,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		
 		/*Set the Layout*/
 		mainPanel.setLayout(new FlowLayout());
-		mainPanel.add(webcamPanel); 
+		//mainPanel.add(webcamPanel); 
 		mainPanel.add(controlPanel); 
 		
 		/*Set the parameters*/ 
@@ -203,7 +203,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		
 		/*Set the Parameters of the JFrame*/
 		this.setTitle("Raspberry Controller");
-		this.setSize(new Dimension(1016, 520));
+		this.setSize(new Dimension(470, 520));
 		this.setResizable(false);
 	}
 	
