@@ -124,7 +124,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//comm.disconnect();
-				controler.sendChoice("U");
+				controler.sendChoice("ms:t");
 				joystickRadioButton.setSelected(false);
 				robotControlledBy.setText("Webcam");
 			}
@@ -133,14 +133,15 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		joystickRadioButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					
+
+				controler.sendChoice("ms:j");
+				
 				comm.connect(comm.searchForPorts());
 				if (comm.getConnected() == true) {
 					if (comm.initIOStream() == true) {
 						comm.initListener();
 					}
-				}
-				controler.sendChoice("Joystick");					
+				}					
 				//controler.sendChoice(comm.getJoystickPositionString());
 				//System.out.println("Send after : "+comm.getJoystickPositionString());
 				webcamRadioButton.setSelected(false);
@@ -233,6 +234,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		choice.setPreferredSize(new Dimension(200, 50));
 		scrollBar.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); 	
 		scrollBar.setPreferredSize(new Dimension(240, 250));
+		ipAdress.setText("192.168.1.91");
 		
 		ipAdress.setPreferredSize(new Dimension(140, 25));
 		ipAddressLabel.setPreferredSize(new Dimension(150, 20)); 

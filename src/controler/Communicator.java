@@ -201,7 +201,6 @@ public class Communicator implements SerialPortEventListener
             	
             	rspb.getControler().sendChoice(msgRcvd);
                 System.out.println(msgRcvd);
-            
             }
             catch (Exception e)
             {
