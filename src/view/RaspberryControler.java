@@ -123,7 +123,10 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		webcamRadioButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//comm.disconnect();
+				
+				if(joystickRadioButton.isEnabled())
+					comm.disconnect();
+				
 				controler.sendChoice("ms:t");
 				joystickRadioButton.setSelected(false);
 				robotControlledBy.setText("Webcam");
@@ -133,7 +136,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		joystickRadioButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				
 				controler.sendChoice("ms:j");
 				
 				comm.connect(comm.searchForPorts());
