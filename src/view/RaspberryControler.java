@@ -142,8 +142,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 						comm.initListener();
 					}
 				}					
-				//controler.sendChoice(comm.getJoystickPositionString());
-				//System.out.println("Send after : "+comm.getJoystickPositionString());
+				
 				webcamRadioButton.setSelected(false);
 				robotControlledBy.setText("The Joystick");				
 			}
