@@ -63,6 +63,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 	private JRadioButton joystickRadioButton; 
 	private JTextField ipAdress; 
 	private JCheckBox fineTuning; 
+	private boolean isFineTuning; 
 	
 	/*Declaring the network elements*/
 	private BufferedReader bufferedReader; // in 
@@ -140,7 +141,10 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				controler.sendChoice("ms:j");
+				if(isFineTuning)
+					controler.sendChoice("ms:j");
+				else
+					controler.sendChoice("ms:ja"); // Ms : Analogue.
 				
 				comm.connect(comm.searchForPorts());
 				if (comm.getConnected() == true) {
@@ -243,6 +247,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		scrollBar.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); 	
 		scrollBar.setPreferredSize(new Dimension(240, 250));
 		ipAdress.setText("192.168.1.91");
+		isFineTuning = false; 
 		
 		ipAdress.setPreferredSize(new Dimension(140, 25));
 		ipAddressLabel.setPreferredSize(new Dimension(150, 20)); 
@@ -349,6 +354,10 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 	
 	public Controler getControler() {
 		return controler;
+	}
+	
+	public boolean isFineTuning() {
+		return isFineTuning;
 	}
 
 

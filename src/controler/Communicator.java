@@ -199,7 +199,32 @@ public class Communicator implements SerialPortEventListener
             			continue1 = false; 
             	}
             	
-            	rspb.getControler().sendChoice(msgRcvd);
+            	/*If fine tunning is checked*/
+            	if(rspb.isFineTuning())
+            		rspb.getControler().sendChoice(msgRcvd);
+            	
+            	else if(!rspb.isFineTuning())
+            		switch(msgRcvd){
+            		case "ms:u":
+            			rspb.getControler().sendChoice("1023\\s\\491"); // y/s/x
+            			break; 
+            			
+            		case "ms:d":
+            			rspb.getControler().sendChoice("0\\s\\491");
+            			break; 
+            			
+            		case "ms:l":
+            			rspb.getControler().sendChoice("529\\s\\0");
+            			break; 
+            			
+            		case "ms:r":
+            			rspb.getControler().sendChoice("523\\s\\1023");
+            			break; 
+            		
+            		default:
+            			break; 
+            		}
+            		
                 System.out.println(msgRcvd);
             }
             catch (Exception e)
