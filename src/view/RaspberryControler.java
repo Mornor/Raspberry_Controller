@@ -17,6 +17,7 @@ import java.net.Socket;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -61,6 +62,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 	private JRadioButton webcamRadioButton; 
 	private JRadioButton joystickRadioButton; 
 	private JTextField ipAdress; 
+	private JCheckBox fineTuning; 
 	
 	/*Declaring the network elements*/
 	private BufferedReader bufferedReader; // in 
