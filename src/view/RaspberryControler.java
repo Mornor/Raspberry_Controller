@@ -35,8 +35,8 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 
-import controler.Controler;
 import controler.Communicator;
+import controler.Controler;
 
 public class RaspberryControler extends JFrame implements SerialPortEventListener
 {
@@ -131,6 +131,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 				
 				controler.sendChoice("ms:t");
 				joystickRadioButton.setSelected(false);
+				fineTuning.setEnabled(false);
 				robotControlledBy.setText("Webcam");
 			}
 		});
@@ -149,6 +150,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 				}					
 				
 				webcamRadioButton.setSelected(false);
+				fineTuning.setEnabled(true);
 				robotControlledBy.setText("The Joystick");				
 			}
 		});
@@ -209,7 +211,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		
 		/*Set the Parameters of the JFrame*/
 		this.setTitle("Raspberry Controller");
-		this.setSize(new Dimension(470, 520));
+		this.setSize(new Dimension(470, 535));
 		this.setResizable(false);
 	}
 	
@@ -224,17 +226,19 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		robotControlledBy = new JLabel("Nothing at the moment");
 		ipAddressLabel = new JLabel("IP Adress of the server: "); 
 		ipAdress = new JTextField(); 
-		stateOfCommunication = new JTextArea(); 
+		stateOfCommunication = new JTextArea();
+		stateOfCommunication.setEditable(false);
 		quit = new JButton("Close connection"); 
 		start = new JButton("Start connection");
 		webcamRadioButton = new JRadioButton(); 
 		joystickRadioButton = new JRadioButton();
 		scrollBar = new JScrollPane(stateOfCommunication);
+		fineTuning = new JCheckBox("Fine tuning"); 
 		
 		/*Set parameters of the components*/
 		chooseYourWayofControling.setPreferredSize(new Dimension(430, 30));
-		byWebcam.setPreferredSize(new Dimension(180, 50));
-		byJoystick.setPreferredSize(new Dimension(180, 50));
+		byWebcam.setPreferredSize(new Dimension(180, 30));
+		byJoystick.setPreferredSize(new Dimension(180, 30));
 		choice.setPreferredSize(new Dimension(200, 50));
 		scrollBar.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); 	
 		scrollBar.setPreferredSize(new Dimension(240, 250));
@@ -247,20 +251,23 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		robotControlledBy.setPreferredSize(new Dimension(200, 20));
 		robotControlledBy.setForeground(Color.RED);
 		quit.setVisible(false);
+		fineTuning.setPreferredSize(new Dimension(350, 20));
+		fineTuning.setEnabled(false);
 		webcamRadioButton.setEnabled(false);
-		joystickRadioButton.setEnabled(true); 
+		joystickRadioButton.setEnabled(false); 
 		
 		/*Set the layout*/
 		controlPanel.setLayout(new FlowLayout()); 
 		controlPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		controlPanel.setPreferredSize(new Dimension(450, 480));
+		controlPanel.setPreferredSize(new Dimension(450, 495));
 		
 		/*Place components inside controlPanel*/
 		controlPanel.add(chooseYourWayofControling); 
+		controlPanel.add(joystickRadioButton); 
+		controlPanel.add(byJoystick);
 		controlPanel.add(webcamRadioButton);
 		controlPanel.add(byWebcam); 
-		controlPanel.add(joystickRadioButton); 
-		controlPanel.add(byJoystick); 
+		controlPanel.add(fineTuning);
 		controlPanel.add(scrollBar);  
 		controlPanel.add(choice); 
 		controlPanel.add(robotControlledBy); 
