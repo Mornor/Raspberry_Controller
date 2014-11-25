@@ -160,7 +160,7 @@ public class Communicator implements SerialPortEventListener
             output.close();
             setConnected(false);
 
-            logText = "Disconnected.";
+            logText = "COM10 - Disconnected.";
             System.out.println(logText);
         }
         catch (Exception e)

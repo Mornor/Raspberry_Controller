@@ -60,7 +60,7 @@ public class Controler {
 	
 	/*Send the choice made on the GUI (via RadioButton) to the server*/
 	public void sendChoice(String msg){
-			//rspbCtl.getPrintWriter().println(msg);
+			rspbCtl.getPrintWriter().println(msg);
 			if(!msg.equals("EXIT"))
 				showMessage("CLIENT - Sent : "+msg);
 	}

@@ -64,6 +64,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 	private JTextField ipAdress; 
 	private JCheckBox fineTuning; 
 	private boolean isFineTuning; 
+	private boolean isSerialConnected; 
 	
 	/*Declaring the network elements*/
 	private BufferedReader bufferedReader; // in 
@@ -127,7 +128,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(joystickRadioButton.isEnabled())
+				if(isSerialConnected)
 					comm.disconnect();
 				
 				controler.sendChoice("ms:t");
@@ -141,7 +142,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				//controler.sendChoice("ms:j");
+				controler.sendChoice("ms:j");
 								
 				comm.connect(comm.searchForPorts());
 				if (comm.getConnected() == true) {
@@ -153,6 +154,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 				comm.writeData("ms:j\n");
 				webcamRadioButton.setSelected(false);
 				fineTuning.setEnabled(true);
+				isSerialConnected = true; 
 				robotControlledBy.setText("The Joystick");				
 			}
 		});
@@ -172,7 +174,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 			public void actionPerformed(ActionEvent e) {
 				if(checkIfIp()){
 					setHost(); 
-					//startRunning.start();
+					startRunning.start();
 					start.setVisible(false);
 					quit.setVisible(true);
 					webcamRadioButton.setEnabled(true);
@@ -246,6 +248,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		joystickRadioButton = new JRadioButton();
 		scrollBar = new JScrollPane(stateOfCommunication);
 		fineTuning = new JCheckBox("Fine tuning"); 
+		isSerialConnected = false; 
 		
 		/*Set parameters of the components*/
 		chooseYourWayofControling.setPreferredSize(new Dimension(430, 30));
