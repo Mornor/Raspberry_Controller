@@ -5,6 +5,7 @@ import gnu.io.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.TooManyListenersException;
 
@@ -182,7 +183,7 @@ public class Communicator implements SerialPortEventListener
     //what happens when data is received
     //pre: serial event is triggered
     //post: processing on the data it reads
-    public void serialEvent(SerialPortEvent evt) {
+    public void serialEvent(SerialPortEvent evt) {   	
     	
     	String msgRcvd = ""; 
     	
@@ -199,34 +200,12 @@ public class Communicator implements SerialPortEventListener
             			continue1 = false; 
             	}
             	
-            	/*If fine tunning is checked*/
-            	if(rspb.isFineTuning())
-            		rspb.getControler().sendChoice(msgRcvd);
+
+                System.out.println("Received from the arduino : " +msgRcvd);
             	
-            	else if(!rspb.isFineTuning())
-            		switch(msgRcvd){
-            		case "ms:u":
-            			rspb.getControler().sendChoice("1023\\s\\491"); // y/s/x
-            			break; 
-            			
-            		case "ms:d":
-            			rspb.getControler().sendChoice("0\\s\\491");
-            			break; 
-            			
-            		case "ms:l":
-            			rspb.getControler().sendChoice("529\\s\\0");
-            			break; 
-            			
-            		case "ms:r":
-            			rspb.getControler().sendChoice("523\\s\\1023");
-            			break; 
-            		
-            		default:
-            			break; 
-            		}
-            		
-                System.out.println(msgRcvd);
+            	rspb.getControler().sendChoice(msgRcvd);            		
             }
+            
             catch (Exception e)
             {
                 logText = "Failed to read data. (" + e.toString() + ")";
@@ -234,6 +213,25 @@ public class Communicator implements SerialPortEventListener
             }
         }
     }
+    
+    //method that can be called to send data
+    //pre: open serial port
+    //post: data sent to the other device
+    public void writeData(String dataToWrite)
+    {       	    	
+        try
+        {  
+        	System.out.println("Data sent on serial : " +dataToWrite);
+            output.write(dataToWrite.getBytes(Charset.forName("UTF-8")));
+            output.flush();
+        }
+        catch (Exception e)
+        {
+            logText = "Failed to write data. (" + e.toString() + ")";
+            System.out.println(logText);
+        }
+    }
+
     
     public String getLogText() {
 		return logText;

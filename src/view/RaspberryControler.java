@@ -141,21 +141,29 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(isFineTuning)
-					controler.sendChoice("ms:j");
-				else
-					controler.sendChoice("ms:ja"); // Ms : Analogue.
-				
+				//controler.sendChoice("ms:j");
+								
 				comm.connect(comm.searchForPorts());
 				if (comm.getConnected() == true) {
 					if (comm.initIOStream() == true) {
 						comm.initListener();
 					}
-				}					
+				}
 				
+				comm.writeData("ms:j\n");
 				webcamRadioButton.setSelected(false);
 				fineTuning.setEnabled(true);
 				robotControlledBy.setText("The Joystick");				
+			}
+		});
+		
+		fineTuning.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(fineTuning.isSelected())
+					comm.writeData("ms:j\n");
+				else 
+					comm.writeData("ms:ja\n");
 			}
 		});
 		
@@ -164,7 +172,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 			public void actionPerformed(ActionEvent e) {
 				if(checkIfIp()){
 					setHost(); 
-					startRunning.start();
+					//startRunning.start();
 					start.setVisible(false);
 					quit.setVisible(true);
 					webcamRadioButton.setEnabled(true);
@@ -248,6 +256,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		scrollBar.setPreferredSize(new Dimension(240, 250));
 		ipAdress.setText("192.168.1.91");
 		isFineTuning = false; 
+		fineTuning.setSelected(true);
 		
 		ipAdress.setPreferredSize(new Dimension(140, 25));
 		ipAddressLabel.setPreferredSize(new Dimension(150, 20)); 
