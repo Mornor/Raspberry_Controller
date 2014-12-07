@@ -13,7 +13,9 @@ import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -56,6 +58,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 	private JLabel liveStream; 
 	private JLabel ipAddressLabel; 
 	private JScrollPane scrollBar; 
+	private JButton startWebcam; 
 	private JButton quit;
 	private JButton start; 
 	private JTextArea stateOfCommunication; 
@@ -65,6 +68,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 	private JCheckBox fineTuning; 
 	private boolean isFineTuning; 
 	private boolean isSerialConnected; 
+	private boolean raisedFlag = false; 
 	
 	/*Declaring the network elements*/
 	private BufferedReader bufferedReader; // in 
@@ -76,8 +80,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 	
 	/*Declaring the Controler class*/
 	Controler controler; 
-	Communicator comm; 
-	
+	Communicator comm; 	
 	
 	public RaspberryControler(){
 		controler = new Controler(this);  
@@ -90,7 +93,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		@Override
 		public void run() {
 			try {
-				controler.connectToServer();
+				controler.connectToServer(45678);
 				controler.setStreams();
 				controler.whileCommunicating();
 			} catch (EOFException e) {
@@ -102,6 +105,24 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 			}			
 		}
 	});
+	
+	private void startLiveFeed(){
+		try {
+			Socket connection = new Socket(InetAddress.getByName("192.168.1.91"), 45679);
+			PrintWriter p = new PrintWriter(connection.getOutputStream(), true); 
+			p.println("START");
+			System.out.println("After");
+			p.close();
+			connection.close();
+			System.out.println("After close connection");
+		} catch (EOFException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			
+		}
+	}
 	
 	private void initComponents(){
 		
@@ -141,9 +162,9 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		joystickRadioButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+			
 				controler.sendChoice("ms:j");
-								
+				
 				comm.connect(comm.searchForPorts());
 				if (comm.getConnected() == true) {
 					if (comm.initIOStream() == true) {
@@ -196,6 +217,13 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 			}
 		});
 		
+		startWebcam.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					startLiveFeed();
+			}
+		});
+		
 	}
 	
 	private void setHost(){
@@ -225,7 +253,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		
 		/*Set the Parameters of the JFrame*/
 		this.setTitle("Raspberry Controller");
-		this.setSize(new Dimension(470, 535));
+		this.setSize(new Dimension(470, 540));
 		this.setResizable(false);
 	}
 	
@@ -244,6 +272,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		stateOfCommunication.setEditable(false);
 		quit = new JButton("Close connection"); 
 		start = new JButton("Start connection");
+		startWebcam = new JButton("Start webcam"); 
 		webcamRadioButton = new JRadioButton(); 
 		joystickRadioButton = new JRadioButton();
 		scrollBar = new JScrollPane(stateOfCommunication);
@@ -270,13 +299,14 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		quit.setVisible(false);
 		fineTuning.setPreferredSize(new Dimension(350, 20));
 		fineTuning.setEnabled(false);
+		startWebcam.setPreferredSize(new Dimension(240, 25));
 		webcamRadioButton.setEnabled(false);
 		joystickRadioButton.setEnabled(false); 
 		
 		/*Set the layout*/
 		controlPanel.setLayout(new FlowLayout()); 
 		controlPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		controlPanel.setPreferredSize(new Dimension(450, 495));
+		controlPanel.setPreferredSize(new Dimension(450, 503));
 		
 		/*Place components inside controlPanel*/
 		controlPanel.add(chooseYourWayofControling); 
@@ -285,6 +315,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		controlPanel.add(webcamRadioButton);
 		controlPanel.add(byWebcam); 
 		controlPanel.add(fineTuning);
+		controlPanel.add(startWebcam); 
 		controlPanel.add(scrollBar);  
 		controlPanel.add(choice); 
 		controlPanel.add(robotControlledBy); 
@@ -292,6 +323,7 @@ public class RaspberryControler extends JFrame implements SerialPortEventListene
 		controlPanel.add(ipAdress); 
 		controlPanel.add(start); 
 		controlPanel.add(quit); 
+		controlPanel.add(startWebcam);
 		
 	}
 

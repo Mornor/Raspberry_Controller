@@ -13,16 +13,19 @@ import view.RaspberryControler;
 public class Controler {
 	
 	RaspberryControler rspbCtl;  
+	boolean isConnected = false; 
+	
 	
 	public Controler(RaspberryControler ctl){
 		this.rspbCtl = ctl;
 	}
 	
 	
-	public void connectToServer() throws IOException{
+	public void connectToServer(int port) throws IOException{
 		showMessage("Attempting to connect ...");
-		rspbCtl.setConnection(new Socket(InetAddress.getByName(rspbCtl.getHost()), 45678));
+		rspbCtl.setConnection(new Socket(InetAddress.getByName(rspbCtl.getHost()), port));
 		showMessage("Connected to : "+rspbCtl.getConnection().getInetAddress().getHostName());
+		isConnected = true;
 	}
 	
 	public void setStreams() throws IOException{
@@ -40,7 +43,7 @@ public class Controler {
 			}catch(IOException e){
 				showMessage("Incorrect data");
 			}
-		}while(true); 
+		}while(isConnected); 
 	}
 	
 	public void showMessage(String msg){			
@@ -61,8 +64,9 @@ public class Controler {
 	/*Send the choice made on the GUI (via RadioButton) to the server*/
 	public void sendChoice(String msg){
 			rspbCtl.getPrintWriter().println(msg);
-			if(!msg.equals("EXIT"))
-				showMessage("CLIENT - Sent : "+msg);
+			if(!msg.equals("EXIT")){
+				isConnected = false; 
+			}
 	}
 	
 	public void playVideo(EmbeddedMediaPlayerComponent mp){
